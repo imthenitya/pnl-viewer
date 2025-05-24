@@ -1,0 +1,18 @@
+.nav {
+    padding: 10px 20px;
+    background-color: #0070f3;
+}
+
+.ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}

@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import {
   LineChart,
@@ -11,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import styles from "./styles.module.css";
 
 const AI_API_URL = process.env.NEXT_PUBLIC_AI_API_URL || "http://localhost:8000";
 
@@ -20,7 +20,7 @@ type ChartPoint = {
   Forecast?: number;
 };
 
-export default function Home() {
+export default function Chartprediction() {
   const [symbol, setSymbol] = useState("RELIANCE.BSE");
   const [chartData, setChartData] = useState<ChartPoint[]>([]);
   const [error, setError] = useState<string>();
@@ -78,16 +78,24 @@ export default function Home() {
 
   return (
     <main style={{ padding: 20 }}>
-      <h1>AI‑Powered Stock Forecast</h1>
-      <input
-        value={symbol}
-        onChange={(e) => setSymbol(e.target.value)}
-        placeholder="Enter stock symbol"
-        style={{ marginRight: 10 }}
-      />
-      <button onClick={getForecast} disabled={loading}>
-        {loading ? "Predicting…" : "Forecast"}
-      </button>
+      <div className={styles.container}>
+        <h1 className={styles.title}>AI‑Powered Stock Forecast</h1>
+        <div className={styles.inputGroup}>
+          <input
+            className={styles.input}
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            placeholder="Enter stock symbol"
+            disabled={loading}
+          />
+          <button
+            className={styles.button}
+            onClick={getForecast}
+            disabled={loading || !symbol.trim()}>
+            {loading ? "Predicting…" : "Forecast"}
+          </button>
+        </div>
+      </div>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
