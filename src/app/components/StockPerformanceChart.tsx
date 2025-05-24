@@ -100,8 +100,8 @@ export default function StockPerformanceChart() {
   };
 
   return (
-    <div style={{ height: "100vh", marginInline: "20px" }}>
-      {data.length === 0 && (
+    <>
+      {data.length === 0 ? (
         <div className="fileSelector">
           <input
             type="file"
@@ -114,50 +114,54 @@ export default function StockPerformanceChart() {
             Upload Profit and Loss Excel
           </label>
         </div>
-      )}
-      {data.length > 0 && (
-        <div style={{ height: "90vh", overflowX: "auto" }}>
-          <div style={{ width: data.length * 120, height: "100%" }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} margin={{ top: 20, right: 30, left: 10, bottom: 50 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="tradingsymbol"
-                  interval={0}
-                  angle={-45}
-                  textAnchor="end"
-                  tick={{ fontSize: 11 }}
-                />
-                <YAxis />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend />
-                <Bar dataKey="buy_value" fill="#8884d8" name="Buy Value" />
-                <Bar dataKey="sell_value" fill="#82ca9d" name="Sell Value" />
-                <Bar dataKey="realized_profit_abs" name="Profit/Loss" isAnimationActive={false}>
-                  {data.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={entry.realized_profit >= 0 ? "green" : "red"}
+      ) : (
+        <div style={{ height: "100vh", marginInline: "20px" }}>
+          {data.length > 0 && (
+            <div style={{ height: "90vh", overflowX: "auto" }}>
+              <div style={{ width: data.length * 120, height: "100%" }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={data} margin={{ top: 20, right: 30, left: 10, bottom: 50 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis
+                      dataKey="tradingsymbol"
+                      interval={0}
+                      angle={-45}
+                      textAnchor="end"
+                      tick={{ fontSize: 11 }}
                     />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+                    <YAxis />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend />
+                    <Bar dataKey="buy_value" fill="#8884d8" name="Buy Value" />
+                    <Bar dataKey="sell_value" fill="#82ca9d" name="Sell Value" />
+                    <Bar dataKey="realized_profit_abs" name="Profit/Loss" isAnimationActive={false}>
+                      {data.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={entry.realized_profit >= 0 ? "green" : "red"}
+                        />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          )}
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <p>
+              Total Buy value: {formattedPrice(data.reduce((sum, item) => sum + item.buy_value, 0))}
+            </p>
+            <p>
+              Total Sell value:{" "}
+              {formattedPrice(data.reduce((sum, item) => sum + item.sell_value, 0))}
+            </p>
+            <p>
+              Total Profit/Loss:
+              {formattedPrice(data.reduce((sum, item) => sum + item.realized_profit, 0))}
+            </p>
           </div>
         </div>
       )}
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <p>
-          Total Buy value: {formattedPrice(data.reduce((sum, item) => sum + item.buy_value, 0))}
-        </p>
-        <p>
-          Total Sell value: {formattedPrice(data.reduce((sum, item) => sum + item.sell_value, 0))}
-        </p>
-        <p>
-          Total Profit/Loss:
-          {formattedPrice(data.reduce((sum, item) => sum + item.realized_profit, 0))}
-        </p>
-      </div>
-    </div>
+    </>
   );
 }
