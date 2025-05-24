@@ -30,6 +30,7 @@ type StockData = {
   realized_profit_abs: number;
 };
 
+<<<<<<< HEAD
 const formattedPrice = (price: number) => {
   return price.toLocaleString("en-IN", {
     style: "currency",
@@ -37,13 +38,18 @@ const formattedPrice = (price: number) => {
   });
 };
 
+=======
+>>>>>>> main
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload?.length) {
     const data = payload[0].payload;
     return (
       <div style={{ backgroundColor: "white", border: "1px solid #ccc", padding: 10 }}>
         <strong>{label}</strong>
+<<<<<<< HEAD
         <div>Quantity: {data.quantity}</div>
+=======
+>>>>>>> main
         <div>Buy Value: ₹{data.buy_value?.toFixed(2)}</div>
         <div>Sell Value: ₹{data.sell_value?.toFixed(2)}</div>
         <div style={{ color: data.realized_profit >= 0 ? "green" : "red" }}>
@@ -93,7 +99,11 @@ export default function StockPerformanceChart() {
           realized_profit_abs: Math.abs(realizedProfit),
         };
       });
+<<<<<<< HEAD
       console.log(parsedData);
+=======
+
+>>>>>>> main
       setData(parsedData);
     };
 
@@ -101,7 +111,11 @@ export default function StockPerformanceChart() {
   };
 
   return (
+<<<<<<< HEAD
     <div style={{ height: "100vh", marginInline: "20px" }}>
+=======
+    <>
+>>>>>>> main
       {data.length === 0 && (
         <div className="fileSelector">
           <input
@@ -117,7 +131,11 @@ export default function StockPerformanceChart() {
         </div>
       )}
       {data.length > 0 && (
+<<<<<<< HEAD
         <div style={{ height: "90vh", overflowX: "auto" }}>
+=======
+        <div style={{ height: "100vh", overflowX: "auto" }}>
+>>>>>>> main
           <div style={{ width: data.length * 120, height: "100%" }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data} margin={{ top: 20, right: 30, left: 10, bottom: 50 }}>
@@ -147,6 +165,7 @@ export default function StockPerformanceChart() {
           </div>
         </div>
       )}
+<<<<<<< HEAD
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <p>
           Total Buy value: {formattedPrice(data.reduce((sum, item) => sum + item.buy_value, 0))}
@@ -160,5 +179,8 @@ export default function StockPerformanceChart() {
         </p>
       </div>
     </div>
+=======
+    </>
+>>>>>>> main
   );
 }
