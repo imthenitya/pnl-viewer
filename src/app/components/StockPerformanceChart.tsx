@@ -30,12 +30,20 @@ type StockData = {
   realized_profit_abs: number;
 };
 
+const formattedPrice = (price: number) => {
+  return price.toLocaleString("en-IN", {
+    style: "currency",
+    currency: "INR",
+  });
+};
+
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload?.length) {
     const data = payload[0].payload;
     return (
       <div style={{ backgroundColor: "white", border: "1px solid #ccc", padding: 10 }}>
         <strong>{label}</strong>
+        <div>Quantity: {data.quantity}</div>
         <div>Buy Value: ₹{data.buy_value?.toFixed(2)}</div>
         <div>Sell Value: ₹{data.sell_value?.toFixed(2)}</div>
         <div style={{ color: data.realized_profit >= 0 ? "green" : "red" }}>
@@ -92,7 +100,7 @@ export default function StockPerformanceChart() {
   };
 
   return (
-    <>
+    <div style={{ height: "100vh", marginInline: "20px" }}>
       {data.length === 0 && (
         <div className="fileSelector">
           <input
@@ -108,7 +116,7 @@ export default function StockPerformanceChart() {
         </div>
       )}
       {data.length > 0 && (
-        <div style={{ height: "100vh", overflowX: "auto" }}>
+        <div style={{ height: "90vh", overflowX: "auto" }}>
           <div style={{ width: data.length * 120, height: "100%" }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data} margin={{ top: 20, right: 30, left: 10, bottom: 50 }}>
@@ -138,6 +146,18 @@ export default function StockPerformanceChart() {
           </div>
         </div>
       )}
-    </>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <p>
+          Total Buy value: {formattedPrice(data.reduce((sum, item) => sum + item.buy_value, 0))}
+        </p>
+        <p>
+          Total Sell value: {formattedPrice(data.reduce((sum, item) => sum + item.sell_value, 0))}
+        </p>
+        <p>
+          Total Profit/Loss:
+          {formattedPrice(data.reduce((sum, item) => sum + item.realized_profit, 0))}
+        </p>
+      </div>
+    </div>
   );
 }
